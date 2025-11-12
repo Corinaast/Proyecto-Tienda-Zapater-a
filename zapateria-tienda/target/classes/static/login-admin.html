@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - Zapatería</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1f2937;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 480px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.05em;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+            background: #f9fafb;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .form-container {
+            display: none;
+        }
+        
+        .form-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .footer-links {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .info-box {
+            background: #fef3c7;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .info-box p {
+            color: #92400e;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .icon-lg {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <i data-lucide="shield" class="icon-lg"></i>
+                Panel Administrativo
+            </h1>
+            <p>Acceso Restringido</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">
+                <i data-lucide="log-in"></i> Iniciar Sesión
+            </button>
+            <button class="tab" onclick="switchTab('register')">
+                <i data-lucide="user-plus"></i> Registrarse
+            </button>
+        </div>
+        
+        <div class="content">
+            <div id="alertContainer"></div>
+            
+            <!-- LOGIN FORM -->
+            <div id="loginForm" class="form-container active">
+                <form onsubmit="login(event)">
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="user"></i>
+                            Usuario Administrador
+                        </label>
+                        <input type="text" id="loginUsername" placeholder="Usuario admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="lock"></i>
+                            Contraseña
+                        </label>
+                        <input type="password" id="loginPassword" placeholder="Contraseña segura" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="shield-check"></i>
+                        Acceder al Panel
+                    </button>
+                </form>
+                
+                <div class="footer-links">
+                    <a href="login-cliente.html">
+                        <i data-lucide="shopping-bag"></i>
+                        Volver a la tienda
+                    </a>
+                </div>
+            </div>
+            
+            <!-- REGISTER FORM -->
+            <div id="registerForm" class="form-container">
+                 <!-- <div class="info-box">
+                    <p>
+                        <strong>⚠️ Código Secreto Requerido</strong><br>
+                        Solo personal autorizado puede crear cuentas de administrador.
+                        El código secreto es: <strong>ADMIN2024</strong>
+                    </p>
+                </div> -->
+                
+                <form onsubmit="register(event)">
+                   <!-- <div class="form-group">
+                        <label>
+                            <i data-lucide="key"></i>
+                            Código Secreto
+                        </label>
+                        <input type="text" id="regCodigo" placeholder="ADMIN2024" required>
+                    </div>   -->
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="user"></i>
+                            Nombre
+                        </label>
+                        <input type="text" id="regNombre" placeholder="Admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="user"></i>
+                            Apellido
+                        </label>
+                        <input type="text" id="regApellido" placeholder="Principal" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="mail"></i>
+                            Email
+                        </label>
+                        <input type="email" id="regEmail" placeholder="admin@zapateria.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="user-circle"></i>
+                            Usuario
+                        </label>
+                        <input type="text" id="regUsername" placeholder="adminprincipal" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i data-lucide="lock"></i>
+                            Contraseña
+                        </label>
+                        <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="shield-plus"></i>
+                        Crear Cuenta Admin
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        
+        function switchTab(tab) {
+            // Actualizar tabs
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.tab').classList.add('active');
+            
+            // Actualizar formularios
+            document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+            document.getElementById(tab + 'Form').classList.add('active');
+            
+            // Limpiar alertas
+            document.getElementById('alertContainer').innerHTML = '';
+            
+            // Reinicializar iconos
+            lucide.createIcons();
+        }
+        
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : type === 'warning' ? 'alert-triangle' : 'alert-circle';
+            alertDiv.innerHTML = `
+                <i data-lucide="${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            const container = document.getElementById('alertContainer');
+            container.innerHTML = '';
+            container.appendChild(alertDiv);
+            
+            lucide.createIcons();
+            
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+        
+        async function login(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/usuarios/login`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, password})
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.usuario.rol === 'ADMINISTRADOR') {
+                    sessionStorage.setItem('currentUser', JSON.stringify(data.usuario));
+                    showAlert('Acceso concedido. Bienvenido ' + data.usuario.nombre, 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1500);
+                } else if (data.success && data.usuario.rol !== 'ADMINISTRADOR') {
+                    showAlert('Acceso denegado. Solo para administradores', 'error');
+                } else {
+                    showAlert(data.mensaje, 'error');
+                }
+            } catch (error) {
+                showAlert('Error al conectar con el servidor', 'error');
+            }
+        }
+        
+        async function register(e) {
+            e.preventDefault();
+            
+            const datos = {
+               // codigoSecreto: document.getElementById('regCodigo').value,
+                nombre: document.getElementById('regNombre').value,
+                apellido: document.getElementById('regApellido').value,
+                email: document.getElementById('regEmail').value,
+                username: document.getElementById('regUsername').value,
+                password: document.getElementById('regPassword').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/usuarios/registro-admin`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(datos)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('¡Administrador creado! Ya puedes iniciar sesión', 'success');
+                    e.target.reset();
+                    
+                    setTimeout(() => {
+                        document.querySelector('.tab').click();
+                    }, 2000);
+                } else {
+                    showAlert(data.mensaje, 'error');
+                }
+            } catch (error) {
+                showAlert('Error al conectar con el servidor', 'error');
+            }
+        }
+        
+        // Inicializar iconos
+        lucide.createIcons();
+    </script>
+</body>
+</html>
